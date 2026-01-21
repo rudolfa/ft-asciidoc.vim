@@ -20,6 +20,34 @@ Maybe
  
 I use [vim-packager](https://github.com/kristijanhusak/vim-packager)
 
+### Packer Initialisation Prefix block
+```vim
+"  PLUGINS ---------------------------------------------------------------- {{{
+" Packager had to be installes first
+" git clone https://github.com/kristijanhusak/vim-packager ~/.vim/pack/packager/opt/vim-packager
+" Load packager only when you need it
+function! PackagerInit() abort
+    packadd vim-packager
+    call packager#init()
+    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+```    
+    
+### Add this to your PackerInit() function
+```vim
+    call packager#add('rudolfa/asciibox-vft-asciidoc-plugin')
+```
+
+### Packer Installation Suffix block
+```vim
+endfunction
+" These commands are automatically added when using `packager#setup()`
+command! -nargs=* -bar PackagerInstall call PackagerInit() | call packager#install(<args>)
+command! -nargs=* -bar PackagerUpdate call PackagerInit() | call packager#update(<args>)
+command! -bar PackagerClean call PackagerInit() | call packager#clean()
+command! -bar PackagerStatus call PackagerInit() | call packager#status()
+}}}
+```
+
 ## Usage
 See
 ```vim
