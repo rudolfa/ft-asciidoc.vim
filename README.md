@@ -20,6 +20,17 @@ Maybe
  
 I use [vim-packager](https://github.com/kristijanhusak/vim-packager)
 
+Add the following function to your vimrc or, if this function already exist, add just the asciibox plugin line into the body of the function PackerInit().
+
+Then reload vimrc
+```vim
+:so $MYVIMRC
+```
+and call
+```vim
+:PackerInstall
+```
+
 ### Packer Initialisation Prefix block
 ```vim
 "  PLUGINS ---------------------------------------------------------------- {{{
@@ -47,6 +58,8 @@ command! -bar PackagerClean call PackagerInit() | call packager#clean()
 command! -bar PackagerStatus call PackagerInit() | call packager#status()
 }}}
 ```
+### 
+
 
 ## Usage
 See
