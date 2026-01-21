@@ -1,0 +1,44 @@
+*asciibox-ft-asciidoc.txt*: Asciidoc Vim Filetype Support	
+
+		ASCIIBOX VIM FILETYPE ASCIIDOC PLUGIN	 *asciibox-ft-asciidoc*
+
+	Overwrites vim ft asciidoc system plugin 			
+
+------------------------------------------------------------------------------
+
+	TABLE OF CONTENT			
+
+	1. Overview
+	2. Mapping
+	3. Configuration			|asciibox-ft-asciidoc-config|
+	4. License				|asciibox-ft-asciidoc-license|
+
+
+------------------------------------------------------------------------------
+Overview					*asciibox-ft-asciidoc-overview*
+
+	Add asciidoc file support for
+	- Preview using gp
+	- Goto file using gf
+
+	Add open link support for gx
+
+
+
+------------------------------------------------------------------------------
+Configuration 					*asciibox-ft-asciidoc-config*
+
+	To avoid default browser for preview use this:
+	let g:asciibox_browser = 'firefox' 
+	or
+	let g:asciibox_browser = 'goggle-chrome-stable'
+
+
+------------------------------------------------------------------------------
+Licence						*asciibox-ft-asciidoc-license*
+
+AUTOR: Andreas Rudolf <ardev@gmx.de>                           
+LIZENZ: MIT License
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
