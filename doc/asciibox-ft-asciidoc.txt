@@ -8,8 +8,8 @@
 
 	TABLE OF CONTENT			
 
-	1. Overview
-	2. Mapping
+	1. Overview				|asciibox-ft-asciidoc-overview|
+	2. Mapping				|asciibox-ft-asciidoc-mapping|
 	3. Configuration			|asciibox-ft-asciidoc-config|
 	4. License				|asciibox-ft-asciidoc-license|
 
@@ -17,13 +17,19 @@
 ------------------------------------------------------------------------------
 Overview					*asciibox-ft-asciidoc-overview*
 
-	Add asciidoc file support for
-	- Preview using gp
-	- Goto file using gf
-
-	Add open link support for gx
+	Support 
+	- gf (goto file),gp (preview), gx (open link)
+	- Folding
 
 
+------------------------------------------------------------------------------
+Mapping						*asciibox-ft-asciidoc-mapping*
+	MODUS	MAPPING	DESCRIPTION
+	n	gf	open file under cursor. Ignore link,include and xref macro 
+	n	gp	preview. Open asciidoc viewer. Use a:asciibox_browser
+			if set
+	n	gx	follow link. Open browser
+	n	<LocalLeader>z	Redraw folding
 
 ------------------------------------------------------------------------------
 Configuration 					*asciibox-ft-asciidoc-config*

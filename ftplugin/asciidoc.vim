@@ -62,16 +62,76 @@ if get(g:, 'asciibox_browser', '') == ''
     endif
 endif
 
+" ---------------------------------------------------------
+"  Folding
+" ---------------------------------------------------------
+setlocal foldexpr=getline(v:lnum)=~'^=\\+\\s'?'>'.len(matchstr(getline(v:lnum),'^=\\+')):'='
+setlocal foldtext=<SID>AsciiDocFoldText()
+setlocal foldlevel=1
+setlocal foldlevelstart=1
+setlocal foldenable
+
+" Switch, calc and back to normal
+function! s:AsciiDocUpdateFolds()
+  if &filetype == 'asciidoc'
+    let l:save_view = winsaveview()
+
+    setlocal foldmethod=expr
+    redraw
+    setlocal foldmethod=manual
+
+    call winrestview(l:save_view)
+  endif
+endfunction
+
+" --- 3. Automatisierung (Autocmds) ---
+augroup AsciiDocFastFold
+  autocmd! * <buffer>
+
+  autocmd BufReadPost,BufWritePost <buffer> call s:AsciiDocUpdateFolds()
+
+  " autocmd InsertLeave <buffer> call s:AsciiDocUpdateFolds()
+augroup END
+
+" Foldtext
+function! s:AsciiDocFoldText()
+    let l:line = getline(v:foldstart)
+
+    let l:lines_count = v:foldend - v:foldstart + 1
+    let l:info = ' (' . l:lines_count . ' Zeilen) '
+
+    let l:window_width = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0)
+
+    let l:text_len = strdisplaywidth(l:line)
+    let l:info_len = strdisplaywidth(l:info)
+
+    let l:fill_len = l:window_width - l:text_len - l:info_len
+
+    if l:fill_len < 0
+        let l:fill_len = 0
+    endif
+
+    return l:line . repeat('·', l:fill_len) . l:info
+endfunction
+
+" Initial call
+call s:AsciiDocUpdateFolds()
+
+" ---------------------------------------------------------
 " Mappings
+" ---------------------------------------------------------
 nnoremap <silent><buffer> gp :call job_start([expand(g:asciibox_browser), expand('%')])<CR>
 nnoremap <silent><buffer> gx :call <SID>OpenAsciiDocLink()<CR>
+nnoremap <buffer> <silent> <LocalLeader>z :call <SID>AsciiDocUpdateFolds()<CR>
 
 if !exists('b:undo_ftplugin')
     let b:undo_ftplugin = ''
 endif
 
+" ---------------------------------------------------------
 " Cleanup
+" ---------------------------------------------------------
 let b:undo_ftplugin .= "| nunmap <buffer> gp"
 let b:undo_ftplugin .= "| nunmap <buffer> gx"
-let b:undo_ftplugin .= "| setlocal isfname< includeexpr<"
-
+let b:undo_ftplugin .= "| nunmap <buffer> <LocalLeader>z | autocmd! AsciiDocFastFold * <buffer>"
+let b:undo_ftplugin .= "| setlocal isfname< includeexpr< foldmethod< foldexpr< foldlevel<"

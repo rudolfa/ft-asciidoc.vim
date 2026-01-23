@@ -7,10 +7,14 @@ At least vim 8 or younger
 
 ## 🚀 Features 
 
-- **Follow links**
- - **gf** goto file. Support for include and xref macro.
- - **gp** preview file. Open as textfile. Use [Asciidoctor.js](https://docs.asciidoctor.org/asciidoctor.js/latest/extend/extensions/) to render it.
- - **gx** open link. Support http,https,link, ftp macros.
+**Follow links**
+
+- **gf** goto file. Support for include and xref macro.
+- **gp** preview file. Open as textfile. Use [Asciidoctor.js](https://docs.asciidoctor.org/asciidoctor.js/latest/extend/extensions/) to render it.
+- **gx** open link. Support http,https,link, ftp macros.
+
+**Folding**
+ 
 
 ## 📦 Installation
 
@@ -21,15 +25,6 @@ Maybe
 I use [vim-packager](https://github.com/kristijanhusak/vim-packager)
 
 Add the following function to your vimrc or, if this function already exist, add just the asciibox plugin line into the body of the function PackerInit().
-
-Then reload vimrc
-```vim
-:so $MYVIMRC
-```
-and call
-```vim
-:PackerInstall
-```
 
 ### Packer Initialisation Prefix block
 ```vim
@@ -58,8 +53,17 @@ command! -bar PackagerClean call PackagerInit() | call packager#clean()
 command! -bar PackagerStatus call PackagerInit() | call packager#status()
 }}}
 ```
-### 
 
+### Activate Plugin
+
+Reload vimrc
+```vim
+:so $MYVIMRC
+```
+and call
+```vim
+:PackerInstall
+```
 
 ## Usage
 See
