@@ -1,5 +1,6 @@
-# asciibox-vft-asciidoc-plugin
-Overwrites ft asciidoc system plugin
+# ft-asciidoc.vim
+Overwrites ft asciidoc system plugin.
+So it was possible to enhance suport for gf,gx and gp and include efficient folding support.
 
 ## Prerequisite
 
@@ -40,7 +41,7 @@ function! PackagerInit() abort
     
 ### Add this to your PackerInit() function
 ```vim
-    call packager#add('rudolfa/asciibox-vft-asciidoc-plugin')
+    call packager#add('rudolfa/ft-asciidoc.vim')
 ```
 
 ### Packer Installation Suffix block
@@ -68,7 +69,7 @@ and call
 ## Usage
 See
 ```vim
-:h asciibox-ft-asciidoc
+:h asciidoc-ft.txt
 ```
 
 ## License

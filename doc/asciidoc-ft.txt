@@ -1,47 +1,47 @@
-*asciibox-ft-asciidoc.txt*: Asciidoc Vim Filetype Support	
+*asciidoc-ft.txt*: Asciidoc Filetype Support	
 
-		ASCIIBOX VIM FILETYPE ASCIIDOC PLUGIN	 *asciibox-ft-asciidoc*
+		VIM ASCIIDOC FILETYPE PLUGIN	 *asciidoc-ft*
 
-	Overwrites vim ft asciidoc system plugin 			
-
+	Vim ft asciidoc plugin with improved features
+	
 ------------------------------------------------------------------------------
 
 	TABLE OF CONTENT			
 
-	1. Overview				|asciibox-ft-asciidoc-overview|
-	2. Mapping				|asciibox-ft-asciidoc-mapping|
-	3. Configuration			|asciibox-ft-asciidoc-config|
-	4. License				|asciibox-ft-asciidoc-license|
+	1. Overview				|asciidoc-ft-overview|
+	2. Mapping				|asciidoc-ft-mapping|
+	3. Configuration			|asciidoc-ft-config|
+	4. License				|asciidoc-ft-license|
 
 
 ------------------------------------------------------------------------------
-Overview					*asciibox-ft-asciidoc-overview*
+Overview					*asciidoc-ft-overview*
 
 	Support 
 	- gf (goto file),gp (preview), gx (open link)
-	- Folding
+	- Efficient folding support
 
 
 ------------------------------------------------------------------------------
-Mapping						*asciibox-ft-asciidoc-mapping*
+Mapping						*asciidoc-ft-mapping*
 	MODUS	MAPPING	DESCRIPTION
 	n	gf	open file under cursor. Ignore link,include and xref macro 
 	n	gp	preview. Open asciidoc viewer. Use a:asciibox_browser
-			if set
+			to change default browser
 	n	gx	follow link. Open browser
 	n	<LocalLeader>z	Redraw folding
 
 ------------------------------------------------------------------------------
-Configuration 					*asciibox-ft-asciidoc-config*
+Configuration 					*asciidoc-ft-config*
 
 	To avoid default browser for preview use this:
-	let g:asciibox_browser = 'firefox' 
+	let g:_browser = 'firefox' 
 	or
-	let g:asciibox_browser = 'goggle-chrome-stable'
+	let g:_browser = 'goggle-chrome-stable'
 
 
 ------------------------------------------------------------------------------
-Licence						*asciibox-ft-asciidoc-license*
+Licence						*asciidoc-ft-license*
 
 AUTOR: Andreas Rudolf <ardev@gmx.de>                           
 LIZENZ: MIT License
