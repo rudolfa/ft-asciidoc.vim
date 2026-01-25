@@ -20,7 +20,7 @@
 " LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"
+
 if exists("b:did_ftplugin")
   finish
 endif
@@ -63,75 +63,20 @@ if get(g:, 'asciibox_browser', '') == ''
 endif
 
 " ---------------------------------------------------------
-"  Folding
+" Cleanup
 " ---------------------------------------------------------
-setlocal foldexpr=getline(v:lnum)=~'^=\\+\\s'?'>'.len(matchstr(getline(v:lnum),'^=\\+')):'='
-setlocal foldtext=<SID>AsciiDocFoldText()
-setlocal foldlevel=1
-setlocal foldlevelstart=1
-setlocal foldenable
+let b:undo_ftplugin = "setlocal isfname< includeexpr< | nunmap <buffer> gp | nunmap <buffer> gx"
 
-" Switch, calc and back to normal
-function! s:AsciiDocUpdateFolds()
-  if &filetype == 'asciidoc'
-    let l:save_view = winsaveview()
-
-    setlocal foldmethod=expr
-    redraw
-    setlocal foldmethod=manual
-
-    call winrestview(l:save_view)
-  endif
-endfunction
-
-" --- 3. Automatisierung (Autocmds) ---
-augroup AsciiDocFastFold
-  autocmd! * <buffer>
-
-  autocmd BufReadPost,BufWritePost <buffer> call s:AsciiDocUpdateFolds()
-
-  " autocmd InsertLeave <buffer> call s:AsciiDocUpdateFolds()
-augroup END
-
-" Foldtext
-function! s:AsciiDocFoldText()
-    let l:line = getline(v:foldstart)
-
-    let l:lines_count = v:foldend - v:foldstart + 1
-    let l:info = ' (' . l:lines_count . ' Zeilen) '
-
-    let l:window_width = winwidth(0) - &foldcolumn - (&number ? &numberwidth : 0)
-
-    let l:text_len = strdisplaywidth(l:line)
-    let l:info_len = strdisplaywidth(l:info)
-
-    let l:fill_len = l:window_width - l:text_len - l:info_len
-
-    if l:fill_len < 0
-        let l:fill_len = 0
-    endif
-
-    return l:line . repeat('·', l:fill_len) . l:info
-endfunction
-
-" Initial call
-call s:AsciiDocUpdateFolds()
+" ---------------------------------------------------------
+"  Folding activate by default
+" ---------------------------------------------------------
+if has("folding") && get(g:, 'asciidoc_folding', 0)
+    runtime ftplugin/asciidoc/opt/folding.vim
+endif
 
 " ---------------------------------------------------------
 " Mappings
 " ---------------------------------------------------------
 nnoremap <silent><buffer> gp :call job_start([expand(g:asciibox_browser), expand('%')])<CR>
 nnoremap <silent><buffer> gx :call <SID>OpenAsciiDocLink()<CR>
-nnoremap <buffer> <silent> <LocalLeader>z :call <SID>AsciiDocUpdateFolds()<CR>
 
-if !exists('b:undo_ftplugin')
-    let b:undo_ftplugin = ''
-endif
-
-" ---------------------------------------------------------
-" Cleanup
-" ---------------------------------------------------------
-let b:undo_ftplugin .= "| nunmap <buffer> gp"
-let b:undo_ftplugin .= "| nunmap <buffer> gx"
-let b:undo_ftplugin .= "| nunmap <buffer> <LocalLeader>z | autocmd! AsciiDocFastFold * <buffer>"
-let b:undo_ftplugin .= "| setlocal isfname< includeexpr< foldmethod< foldexpr< foldlevel<"

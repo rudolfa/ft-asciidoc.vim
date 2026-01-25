@@ -34,10 +34,18 @@ Mapping						*asciidoc-ft-mapping*
 ------------------------------------------------------------------------------
 Configuration 					*asciidoc-ft-config*
 
+`g:asciidoc_browser`				*asciidoc_browser*
+	Type: |String|
+	Standard: empty
 	To avoid default browser for preview use this:
 	let g:_browser = 'firefox' 
 	or
 	let g:_browser = 'goggle-chrome-stable'
+
+`g:asciidoc_folding`				*asciidoc_folding*
+	Type: |Int|
+	Standard: 1
+	Set it to 0, to disable folding
 
 
 ------------------------------------------------------------------------------
