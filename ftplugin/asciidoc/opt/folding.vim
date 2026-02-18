@@ -67,4 +67,4 @@ call s:AsciiDocUpdateFolds()
 nnoremap <buffer> <silent> <LocalLeader>z :call <SID>AsciiDocUpdateFolds()<CR>
 
 " Ergänzung zum Cleanup
-let b:undo_ftplugin .= "| nunmap <buffer> <LocalLeader>z | autocmd! AsciiDocFastFold * <buffer> | setlocal foldmethod< foldexpr<"
+let b:undo_ftplugin .= "| silent! nunmap <buffer> <LocalLeader>z | silent! autocmd! AsciiDocFastFold | setlocal foldmethod< foldexpr<"

@@ -65,7 +65,7 @@ endif
 " ---------------------------------------------------------
 " Cleanup
 " ---------------------------------------------------------
-let b:undo_ftplugin = "setlocal isfname< includeexpr< | nunmap <buffer> gp | nunmap <buffer> gx"
+let b:undo_ftplugin = "setlocal isfname< includeexpr< | silent! nunmap <buffer> gp | silent! nunmap <buffer> gx"
 
 " ---------------------------------------------------------
 "  Folding activate by default
