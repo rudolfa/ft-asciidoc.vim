@@ -48,6 +48,96 @@ function! s:OpenAsciiDocLink()
     endif
 endfunction
 
+
+" ---------------------------------------------------------
+"  Adjust file complete for asciidoc files
+" --------------------------------------------------------
+function! AsciidocFileComplete(findstart, base)
+  if a:findstart
+    " Pass 1: Determine the start position of the path
+    let l:line = getline('.')
+    let l:col = col('.') - 1
+    let l:text_before = l:line[:l:col-1]
+    
+    " Check if we are right after a macro
+    if l:text_before =~# '\v(link|xref|include|image)::?$'
+      return match(l:text_before, '\v(link|xref|include|image)::?$') + matchend(l:text_before, '\v(link|xref|include|image)::?$')
+    endif
+    return -1
+  else
+    " Pass 2: Collect matches
+    let l:line = getline('.')
+    let l:col = col('.') - 1
+    let l:text_before = l:line[:l:col-1]
+    
+    " Temporarily remove the colon from isfname
+    let l:old_isfname = &isfname
+    setlocal isfname-=:
+    
+    let l:matches = []
+    
+    " Read all files and store directories separately.
+    " copy() prevents filter() from destroying the l:all_files list.
+    let l:all_files = glob(a:base . '*', 0, 1)
+    let l:dirs = filter(copy(l:all_files), 'isdirectory(v:val)')
+    
+    if l:text_before =~# '\vimage::?$'
+      " Image files: Configurable via g:asciidoc_image_extensions
+      let l:extensions = get(g:, 'asciidoc_image_extensions', ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])
+      
+      for l:ext in l:extensions
+        call extend(l:matches, glob(a:base . '*.' . l:ext, 0, 1))
+        call extend(l:matches, glob(a:base . '*.' . toupper(l:ext), 0, 1))
+      endfor
+      call extend(l:matches, l:dirs)
+      
+    elseif l:text_before =~# '\vinclude::?$'
+      " Include: .adoc, .csv, and various source code formats (configurable)
+      let l:include_exts = get(g:, 'asciidoc_include_extensions', ['adoc', 'csv', 'java', 'py', 'sh', 'vim', 'json', 'xml', 'html', 'css', 'js', 'ts', 'c', 'cpp', 'txt'])
+      
+      for l:ext in l:include_exts
+        call extend(l:matches, glob(a:base . '*.' . l:ext, 0, 1))
+        call extend(l:matches, glob(a:base . '*.' . toupper(l:ext), 0, 1))
+      endfor
+      call extend(l:matches, l:dirs)
+      
+    elseif l:text_before =~# '\vxref::?$'
+      " Xref: Strictly allow only .adoc and directory navigation
+      call extend(l:matches, glob(a:base . '*.adoc', 0, 1))
+      call extend(l:matches, glob(a:base . '*.ADOC', 0, 1))
+      call extend(l:matches, l:dirs)
+      
+    else
+      " For link: (and as a fallback), show all files without restrictions
+      let l:matches = l:all_files
+    endif
+    
+    " Immediately restore isfname
+    let &l:isfname = l:old_isfname
+    
+    " Clean up: Sort and remove duplicates
+    return uniq(sort(l:matches))
+  endif
+endfunction
+
+
+" ---------------------------------------------------------
+" Support filename completion after specific asciidoc macros
+" ---------------------------------------------------------
+function! s:SetupAsciidocCompletion()
+  " Register clean user defined autocomplete function 
+  setlocal completefunc=AsciidocFileComplete
+
+  " Check during insertmode if we are behind a macro
+  inoremap <buffer> <expr> <C-x><C-f> getline('.')[:col('.')-2] =~# '\v(link<bar>xref<bar>include<bar>image)::?$' ? "\<C-x>\<C-u>" : "\<C-x>\<C-f>"
+
+endfunction
+
+
+" Execute when loading the ftplugins
+call s:SetupAsciidocCompletion()
+
+
 " ---------------------------------------------------------
 " OS Platform-independent call of browser
 " ---------------------------------------------------------

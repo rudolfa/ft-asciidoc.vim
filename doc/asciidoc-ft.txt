@@ -20,6 +20,7 @@ Overview					*asciidoc-ft-overview*
 	Support 
 	- gf (goto file),gp (preview), gx (open link)
 	- Efficient folding support
+	- filename completion after specific asciidoc macro
 
 
 ------------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Mapping						*asciidoc-ft-mapping*
 			to change default browser
 	n	gx	follow link. Open browser
 	n	<LocalLeader>z	Redraw folding
+	i	ctrl_x ctrl_f offer filename completion
 
 ------------------------------------------------------------------------------
 Configuration 					*asciidoc-ft-config*
@@ -46,6 +48,19 @@ Configuration 					*asciidoc-ft-config*
 	Type: |Int|
 	Standard: 1
 	Set it to 0, to disable folding
+
+g:asciidoc_image_extensions			*asciidoc_image_extensions*
+	Type: List
+	Standard: 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'
+	To reduce or extend this list
+	let g:asciibox_image_extensions = ['png', 'jpg', 'svg']
+
+g:asciidoc_include_extensions			*asciidoc_include_extensions*
+	Type: List
+	Standard: 'adoc', 'csv', 'java', 'py', 'sh', 'vim', 'json', 'xml', 'html', 'css', 'js', 'ts', 'c', 'cpp', 'txt'
+	To reduce or extend this list
+	let g:asciidoc_include_extensions = [ 'adoc', 'csv', 'yml', 'java' ]
+
 
 
 ------------------------------------------------------------------------------
